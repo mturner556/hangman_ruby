@@ -49,8 +49,14 @@ class Game
   def check_guess
 
   end
+
+  def display
+    puts "#{mask}"
+    puts "__________"
+    puts "#{guesses}"
+  end
 end
 
 hangman = Game.new
 hangman.start
-puts hangman.mask
+hangman.display

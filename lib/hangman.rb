@@ -4,6 +4,7 @@ class Game
   @word = ''
   @key = ''
   @guesses = []
+  @player_guess = ''
 
   def start
     puts 'Would you like to play hangman?'
@@ -22,6 +23,19 @@ class Game
     end
 
     @word = list.sample
+  end
+
+  # gets the player's input
+  def player_input
+    @player_guess = gets.chomp
+  end
+
+  # plays rounds of the game until the guesses match the @word
+  def turn
+    until @player_key == @word
+      display
+      player_input
+
   end
 
   # will save the state of the game

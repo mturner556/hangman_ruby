@@ -34,9 +34,10 @@ class Game
 
   end
 
-  # will hide the random word
-  def hide_word
-
+  # will mask the random word from the player
+  def mask
+    @key = @word.gsub(/./, '*')
+    "#{@key}\n"
   end
 
   # will store the guesses the player made
@@ -52,3 +53,4 @@ end
 
 hangman = Game.new
 hangman.start
+puts hangman.mask

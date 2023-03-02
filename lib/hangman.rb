@@ -1,10 +1,12 @@
 class Game
   attr_accessor :word, :key, :guesses
 
-  @word = ''
-  @key = ''
-  @guesses = []
-  @player_guess = ''
+  def initialize
+    @word = ''
+    @key = ''
+    @guesses = []
+    @player_guess = ''
+  end
 
   def start
     puts 'Would you like to play hangman?'
@@ -41,11 +43,8 @@ class Game
 
   # plays rounds of the game until the guesses match the @word
   def turn
-    random_word
-    until @player_key == @word
-      display
-      player_input
-    end
+    display
+    player_input
   end
 
   # will save the state of the game
@@ -66,7 +65,7 @@ class Game
 
   # will store the guesses the player made
   def store_guess(guess)
-    @guesses.push(guess)
+    puts @guesses.is_a? Array
   end
 
   # checks the player's guess
@@ -83,4 +82,4 @@ class Game
 end
 
 hangman = Game.new
-hangman.start
+hangman.store_guess("a")

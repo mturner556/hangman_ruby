@@ -1,9 +1,14 @@
+require_relative "display.rb"
+require_relative "file_saving.rb"
+
 class Game
-  attr_accessor :word, :key, :guesses
+  include Display
+  include FileSaving
+  attr_accessor :word, :key, :guesses, :player_guess
 
   def initialize
     @word = ''
-    @key = ''
+    @key = []
     @guesses = []
     @player_guess = ''
   end
@@ -11,7 +16,18 @@ class Game
   def start
     puts 'Would you like to play hangman?'
     puts 'Press 1 to "Start" or 2 to "Load Game"'
-    gets.chomp == '1' ? turn : load_game
+    gets.chomp == '1' ? play_game : load_game
+  end
+
+  # plays the game
+  def play_game
+    random_word
+    mask
+    
+    while @key != @word do
+      display
+      player_input
+    end
   end
 
   # selects a random word and assigns it to the @word variable
@@ -41,45 +57,21 @@ class Game
     end
   end
 
-  # plays rounds of the game until the guesses match the @word
-  def turn
-    display
-    player_input
-  end
-
-  # will save the state of the game
-  def save_game
-    puts "Save ERROR"
-  end
-
-  # loads a saved game
-  def load_game
-    puts 'Load ERROR'
-  end
-
   # will mask the random word from the player
   def mask
     @key = @word.gsub(/./, '*')
-    "#{@key}\n"
   end
 
   # will store the guesses the player made
   def store_guess(guess)
-    puts @guesses.is_a? Array
+    @guesses << guess
   end
 
   # checks the player's guess
   def check_guess
 
   end
-
-  def display
-    puts "Save game by pressing 'save'"
-    puts "#{mask}"
-    puts "__________"
-    puts "#{guesses}"
-  end
 end
 
 hangman = Game.new
-hangman.store_guess("a")
+hangman.start

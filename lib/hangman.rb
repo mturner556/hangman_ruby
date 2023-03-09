@@ -4,13 +4,14 @@ require_relative "file_saving.rb"
 class Game
   include Display
   include FileSaving
-  attr_accessor :word, :key, :guesses, :player_guess
+
+  attr_accessor :word, :key, :guesses, :guess
 
   def initialize
     @word = ''
-    @key = []
+    @key = ''
     @guesses = []
-    @player_guess = ''
+    @guess = ''
   end
 
   def start
@@ -23,10 +24,11 @@ class Game
   def play_game
     random_word
     mask
-    
-    while @key != @word do
+
+    loop do 
       display
-      player_input
+      player_guess
+      store_guess(@guess)
     end
   end
 
@@ -43,17 +45,18 @@ class Game
     @word = list.sample
   end
 
-  # gets the player's input
-  def player_input
-    player_guess = gets.chomp
-
-    if player_guess.length == 1
-      @player_guess = player_guess
-      store_guess(@player_guess)
-    elsif player_guess == 'save'
-      save_game
-    else
-      puts 'Input ERROR'
+  # gets the player's guess
+  def player_guess
+    puts 'Enter your guess. Choose a letter from a-z:'
+    loop do 
+      guess = gets.chomp.downcase
+      if valid_guess(guess) == true
+        @guess = guess
+      elsif valid_guess(guess) == false
+        FileSaving.new.save
+      else
+        valid_guess(guess)
+      end
     end
   end
 
@@ -67,11 +70,18 @@ class Game
     @guesses << guess
   end
 
-  # checks the player's guess
-  def check_guess
-
+  # checks the player's guess. If the player's guess is correct, update the masked word with the correct letters
+  def valid_guess(input)
+    if input.length == 1 && input == 'a'..'z'
+      true
+    elsif input == 'save'
+      false
+    else
+      'Input Error. Try again.'
+    end
   end
 end
 
 hangman = Game.new
-hangman.start
+# hangman.start
+hangman.player_guess

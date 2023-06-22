@@ -1,0 +1,5 @@
+--- !ruby/object:Hangman
+secret_word: platforms
+hidden_word: __a______
+num_of_guesses: 10
+guesses_made: a

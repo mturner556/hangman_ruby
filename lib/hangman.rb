@@ -48,6 +48,7 @@ class Hangman
 
       guess = guess_input
       return save if guess == 'save'
+
       letter_in_secret_word(guess)
     end
 
@@ -92,7 +93,7 @@ class Hangman
       arr.each_index do |i|
         if arr[i] == guess
           @hidden_word[i] = guess
-          @guesses_made << guess
+          @guesses_made << guess unless @guesses_made.include?(guess)
         end
       end
     else
@@ -114,8 +115,7 @@ class Hangman
   end
 
   def play_again
-    puts ''
-    puts 'Would you like to play again?'
+    puts '/nWould you like to play again?'
     puts '  Press (1) to play again.'
     puts '  Priss (2) to exit the game.'
     input = input_loop
